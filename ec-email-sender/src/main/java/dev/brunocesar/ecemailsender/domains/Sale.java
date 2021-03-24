@@ -57,7 +57,7 @@ public class Sale {
 
 	@Override
 	public String toString() {
-		return "SaleRequestDto [code=" + code + ", user=" + user + "]";
+		return "Sale [code=" + code + ", user=" + user + "]";
 	}
 
 }

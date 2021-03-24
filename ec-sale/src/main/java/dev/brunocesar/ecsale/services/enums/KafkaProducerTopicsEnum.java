@@ -2,10 +2,16 @@ package dev.brunocesar.ecsale.services.enums;
 
 public enum KafkaProducerTopicsEnum {
 
-	SALE;
+	SALE("sale");
+
+	String value;
+
+	KafkaProducerTopicsEnum(String value) {
+		this.value = value;
+	}
 
 	public String getValue() {
-		return this.toString();
+		return value;
 	}
 
 }

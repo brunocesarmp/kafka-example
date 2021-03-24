@@ -10,26 +10,23 @@ import org.springframework.kafka.annotation.EnableKafka;
 import org.springframework.kafka.core.DefaultKafkaProducerFactory;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.kafka.core.ProducerFactory;
-import org.springframework.kafka.support.serializer.JsonSerializer;
-
-import dev.brunocesar.ecsale.domains.Sale;
 
 @EnableKafka
 @Configuration
 public class KafkaConfig {
 
 	@Bean
-	public ProducerFactory<String, Sale> producerFactory() {
+	public ProducerFactory<String, String> producerFactory() {
 		HashMap<String, Object> configs = new HashMap<String, Object>();
 		configs.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, "127.0.0.1:9092");
 		configs.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class);
-		configs.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, JsonSerializer.class);
+		configs.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, StringSerializer.class);
 
 		return new DefaultKafkaProducerFactory<>(configs);
 	}
 
 	@Bean
-	KafkaTemplate<String, Sale> kafkaTemplate() {
+	public KafkaTemplate<String, String> kafkaTemplate() {
 		return new KafkaTemplate<>(producerFactory());
 	}
 

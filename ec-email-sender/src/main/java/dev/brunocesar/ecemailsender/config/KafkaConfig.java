@@ -10,29 +10,25 @@ import org.springframework.kafka.annotation.EnableKafka;
 import org.springframework.kafka.config.ConcurrentKafkaListenerContainerFactory;
 import org.springframework.kafka.core.ConsumerFactory;
 import org.springframework.kafka.core.DefaultKafkaConsumerFactory;
-import org.springframework.kafka.support.serializer.JsonDeserializer;
-
-
-import dev.brunocesar.ecemailsender.domains.Sale;
 
 @EnableKafka
 @Configuration
 public class KafkaConfig {
 
 	@Bean
-	public ConsumerFactory<String, Sale> consumerFactory() {
+	public ConsumerFactory<String, String> consumerFactory() {
 		HashMap<String, Object> configs = new HashMap<String, Object>();
 		configs.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, "127.0.0.1:9092");
 		configs.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class);
-		configs.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, JsonDeserializer.class);
-		configs.put(ConsumerConfig.GROUP_ID_CONFIG, "sale");
+		configs.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class);
+		configs.put(ConsumerConfig.GROUP_ID_CONFIG, "sale_group_id");
 
-		return new DefaultKafkaConsumerFactory<>(configs, new StringDeserializer(), new JsonDeserializer<>(Sale.class));
+		return new DefaultKafkaConsumerFactory<>(configs, new StringDeserializer(), new StringDeserializer());
 	}
 
 	@Bean
-	public ConcurrentKafkaListenerContainerFactory<String, Sale> kafkaListenerContainerFactory() {
-		ConcurrentKafkaListenerContainerFactory<String, Sale> concurrentKafkaListenerContainerFactory = new ConcurrentKafkaListenerContainerFactory<String, Sale>();
+	public ConcurrentKafkaListenerContainerFactory<String, String> kafkaListenerContainerFactory() {
+		ConcurrentKafkaListenerContainerFactory<String, String> concurrentKafkaListenerContainerFactory = new ConcurrentKafkaListenerContainerFactory<>();
 		concurrentKafkaListenerContainerFactory.setConsumerFactory(consumerFactory());
 		return concurrentKafkaListenerContainerFactory;
 	}
